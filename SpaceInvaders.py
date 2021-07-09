@@ -36,7 +36,7 @@ class Enemy(pygame.sprite.Sprite):
 		if ((self.groupRect.x + 500) >= 725):
 			self.direction = -self.direction
 			self.rect.y += 5
-		if self.groupRect.x <= 25:
+		if self.groupRect.x <= 50:
 			self.direction = -self.direction
 			self.rect.y += 5
 
@@ -67,7 +67,7 @@ class Bomb(pygame.sprite.Sprite):
 
 ship = Ship()
 ship.rect.x = 375
-ship.rect.y = 650
+ship.rect.y = 700
 
 enemyList = pygame.sprite.Group()
 bunkerList = pygame.sprite.Group()
@@ -86,11 +86,15 @@ for bunk in range(4):
 		for col in range(10):
 			bunker = Bunker()
 			bunker.rect.x = (70 + ((100 + 70) * bunk)) + (10 * col)
-			bunker.rect.y = 500 + (10 * row)
+			bunker.rect.y = 625 + (10 * row)
 			bunkerList.add(bunker)
 
 def redraw():
 	win.fill(black)
+	top = pygame.draw.rect(win, green, (50, 50, 650, 5))
+	for i in range(ship.live):
+		pygame.draw.rect(win, red, (50 + (i * 130), 15, 130, 15))
+
 	ship.draw()
 
 	enemyList.update()
@@ -128,7 +132,7 @@ while run:
 			missileList.add(missile)
 
 	shootChance = random.randint(1, 100)
-	if shootChance < 1.2:
+	if shootChance < 5:
 		if len(enemyList) > 0:
 			randomEnemy = random.choice(enemyList.sprites())
 			bomb = Bomb()
@@ -137,7 +141,7 @@ while run:
 			bombList.add(bomb)
 
 	for missile in missileList:
-		if missile.rect.y < -10:
+		if missile.rect.y < 55:
 			missileList.remove(missile)
 		for enemy in enemyList:
 			if missile.rect.colliderect(enemy.rect):
@@ -151,16 +155,19 @@ while run:
 	for bomb in bombList:
 		if bomb.rect.y > 750:
 			bombList.remove(bomb)
-		for enemy in enemyList:
-			if bomb.rect.colliderect(ship.rect):
-				bombList.remove(bomb)
-				ship.live -= 1
+		if bomb.rect.colliderect(ship.rect):
+			bombList.remove(bomb)
+			ship.live -= 1
+			# print(ship.live, "\t", len(bombList))
 		for bunker in bunkerList:
 			if bomb.rect.colliderect(bunker.rect):
 				bombList.remove(bomb)
 				bunkerList.remove(bunker)
 
+	if ((ship.live <= 0) or (len(enemyList) == 0)):
+		run = False
+
 	redraw()
 
 
-pygame.quit()
+pygame.quit
