@@ -34,13 +34,8 @@ class Enemy(pygame.sprite.Sprite):
 		self.direction = 5
 	def update(self):
 		self.rect.x += self.direction
-<<<<<<< HEAD
-		self.groupRect.x += self.direction
-		if ((self.groupRect.x + 500) >= 875):
-=======
 		self.groupRect += self.direction
 		if ((self.groupRect.x + 500) >= 725):
->>>>>>> parent of 32f518e (Update SpaceInvaders.py)
 			self.direction = -self.direction
 		if self.groupRect.x <= 25:
 			self.direction = -self.direction
