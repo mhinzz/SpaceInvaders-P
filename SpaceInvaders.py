@@ -3,15 +3,14 @@ import random
 
 pygame.init()
 
-win = pygame.display.set_mode((900, 750))
+win = pygame.display.set_mode((750, 750))
 
 pygame.display.set_caption('Space Invaders by mhinzz')
 
 black = (0, 0, 0)
 white = (255, 255, 255)
 green = (0, 255, 0)
-red   = (255, 0, 0)
-
+red = (255, 0, 0)
 
 class Ship(pygame.sprite.Sprite):
 	def __init__(self):
@@ -22,7 +21,6 @@ class Ship(pygame.sprite.Sprite):
 		self.live = 5
 	def draw(self):
 		win.blit(self.image, (self.rect.x, self.rect.y))
-
 
 class Enemy(pygame.sprite.Sprite):
 	def __init__(self):
@@ -41,14 +39,12 @@ class Enemy(pygame.sprite.Sprite):
 			self.direction = -self.direction
 			self.rect.y += 5
 
-
 class Bunker(pygame.sprite.Sprite):
 	def __init__(self):
 		pygame.sprite.Sprite.__init__(self)
 		self.image = pygame.Surface([8, 8])
 		self.image.fill(green)
 		self.rect = self.image.get_rect()
-
 
 class Missile(pygame.sprite.Sprite):
 	def __init__(self):
@@ -59,7 +55,6 @@ class Missile(pygame.sprite.Sprite):
 	def update(self):
 		self.rect.y -= 10
 
-
 class Bomb(pygame.sprite.Sprite):
 	def __init__(self):
 		pygame.sprite.Sprite.__init__(self)
@@ -69,16 +64,14 @@ class Bomb(pygame.sprite.Sprite):
 	def update(self):
 		self.rect.y += 10
 
-
 ship = Ship()
-ship.rect.x = 350
+ship.rect.x = 375
 ship.rect.y = 650
 
 enemyList = pygame.sprite.Group()
 bunkerList = pygame.sprite.Group()
 missileList = pygame.sprite.Group()
 bombList = pygame.sprite.Group()
-
 
 for row in range(1, 6):
 	for col in range(1, 11):
@@ -87,15 +80,13 @@ for row in range(1, 6):
 		enemy.rect.y = 25 + (50 * row)
 		enemyList.add(enemy)
 
-
 for bunk in range(4):
-	for row in range(7):
-		for col in range(15):
+	for row in range(5):
+		for col in range(10):
 			bunker = Bunker()
-			bunker.rect.x = (60 + ((150 + 60) * bunk)) + (10 * col)
+			bunker.rect.x = (70 + ((100 + 70) * bunk)) + (10 * col)
 			bunker.rect.y = 500 + (10 * row)
 			bunkerList.add(bunker)
-
 
 def redraw():
 	win.fill(black)
@@ -112,7 +103,6 @@ def redraw():
 	bombList.draw(win)
 
 	pygame.display.update()
-
 
 run = True
 while run:
@@ -135,7 +125,7 @@ while run:
 			missileList.add(missile)
 
 	shootChance = random.randint(1, 100)
-	if shootChance < 5:
+	if shootChance < 1.2:
 		if len(enemyList) > 0:
 			randomEnemy = random.choice(enemyList.sprites())
 			bomb = Bomb()
@@ -170,4 +160,4 @@ while run:
 	redraw()
 
 
-pygame.quit
+pygame.quit()
