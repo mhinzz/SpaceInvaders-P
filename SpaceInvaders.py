@@ -32,9 +32,10 @@ class Enemy(pygame.sprite.Sprite):
 		self.direction = 5
 	def update(self):
 		self.rect.x += self.direction
-		self.groupRect += self.direction
+		self.groupRect.x += self.direction
 		if ((self.groupRect.x + 500) >= 725):
 			self.direction = -self.direction
+			self.rect.y += 5
 		if self.groupRect.x <= 25:
 			self.direction = -self.direction
 			self.rect.y += 5
@@ -92,10 +93,12 @@ def redraw():
 	win.fill(black)
 	ship.draw()
 
+	enemyList.update()
 	enemyList.draw(win)
-	bunkerList.update()
 
+	bunkerList.update()
 	bunkerList.draw(win)
+
 	missileList.update()
 	missileList.draw(win)
 
